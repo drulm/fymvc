@@ -19,19 +19,19 @@
 
         <div>
             <label for="inputName">Name</label>
-            <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" />
+            <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" required />
         </div>
         <div>
             <label for="inputEmail">Email address</label>
-            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" />
+            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email" />
         </div>
         <div>
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" />
+            <input type="password" id="inputPassword" name="password" placeholder="Password" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" title="Minimum 6 chars, at least one letter and number" />
         </div>
         <div>
             <label for="inputPasswordConfirmation">Repeat password</label>
-            <input type="password" id="inputPasswordConfirmation" name="password_confirmation" placeholder="Repeat password" />
+            <input type="password" id="inputPasswordConfirmation" name="password_confirmation" placeholder="Repeat password" required />
         </div>
 
         <button type="submit">Sign up</button>

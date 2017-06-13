@@ -41,6 +41,7 @@ abstract class Controller
      */
     public function __call($name, $args)
     {
+        // Assume the name for the 'magic' method, suffix with Action in controllers.
         $method = $name . 'Action';
 
         if (method_exists($this, $method)) {

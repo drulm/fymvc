@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\View;
+use \Core\View;
 
 class Test extends \Core\Controller {
     

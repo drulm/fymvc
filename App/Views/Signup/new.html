@@ -3,6 +3,7 @@
 {% block title %}Sign up{% endblock %}
 
 {% block footer %}
+    <script src="/js/hideShowPassword.min.js"></script>
 
     <script>
         /**
@@ -44,9 +45,6 @@
                         required: true,
                         minlength: 6,
                         validPassword: true
-                    },
-                    password_confirmation: {
-                        equalTo: '#inputPassword'
                     }
                 },
                 messages: {
@@ -54,6 +52,15 @@
                         remote: 'email already taken'
                     }
                 }
+            });
+
+
+            /**
+              * Show password toggle button
+              */
+            $('#inputPassword').hideShowPassword({
+                show: false,
+                innerToggle: 'focus'
             });
         });
     </script>
@@ -86,10 +93,6 @@
         <div>
             <label for="inputPassword">Password</label>
             <input type="password" id="inputPassword" name="password" placeholder="Password" required />
-        </div>
-        <div>
-            <label for="inputPasswordConfirmation">Repeat password</label>
-            <input type="password" id="inputPasswordConfirmation" name="password_confirmation" placeholder="Repeat password" required />
         </div>
 
         <button type="submit">Sign up</button>

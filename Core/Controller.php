@@ -3,6 +3,7 @@
 namespace Core;
 
 use \App\Auth;
+use \App\Flash;
 
 /**
  * Base controller
@@ -25,7 +26,7 @@ abstract class Controller
      *
      * @return void
      */
-    public function __construct($route_params)
+    public function __construRequirct($route_params)
     {
         $this->route_params = $route_params;
     }
@@ -95,7 +96,9 @@ abstract class Controller
     public function requireLogin()
     {
         if (! Auth::getUser()) {
-
+            
+            Flash::addMessage('You need to log in first to access this page.');
+            
             Auth::rememberRequestedPage();
 
             $this->redirect('/login');

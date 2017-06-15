@@ -129,20 +129,47 @@ class User extends \Core\Model
 
         return $stmt->fetch();
     }
-    
+
     /**
-     * 
-     * @param type $email
-     * @param type $password
+     * Authenticate a user by email and password.
+     *
+     * @param string $email email address
+     * @param string $password password
+     *
+     * @return mixed  The user object or false if authentication fails
      */
-    public static function authenticate($email, $password) {
+    public static function authenticate($email, $password)
+    {
         $user = static::findByEmail($email);
+
         if ($user) {
             if (password_verify($password, $user->password_hash)) {
                 return $user;
             }
         }
+
         return false;
     }
-    
+
+    /**
+     * Find a user model by ID
+     *
+     * @param string $id The user ID
+     *
+     * @return mixed User object if found, false otherwise
+     */
+    public static function findByID($id)
+    {
+        $sql = 'SELECT * FROM users WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

@@ -55,16 +55,6 @@ class Auth
     }
 
     /**
-     * Return indicator of whether a user is logged in or not
-     *
-     * @return boolean
-     */
-    public static function isLoggedIn()
-    {
-        return isset($_SESSION['user_id']);
-    }
-
-    /**
      * Remember the originally-requested page in the session
      *
      * @return void
@@ -92,6 +82,7 @@ class Auth
     public static function getUser()
     {
         if (isset($_SESSION['user_id'])) {
+
             return User::findByID($_SESSION['user_id']);
         }
     }

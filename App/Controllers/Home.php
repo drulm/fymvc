@@ -21,7 +21,7 @@ class Home extends \Core\Controller
     public function indexAction()
     {
         View::renderTemplate('Home/index.html', [
-            'user' => Auth::getUser(),
+            //'user' => Auth::getUser()
         ]);
     }
 }

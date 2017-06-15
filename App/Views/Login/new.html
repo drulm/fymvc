@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Log in{% endblock %}
 
@@ -6,7 +6,7 @@
 
     <h1>Log in</h1>
 
-    <form action="/login/create" method="post" >
+    <form action="/login/create" method="post">
 
         <div>
             <label for="inputEmail">Email address</label>
@@ -20,5 +20,5 @@
         <button type="submit">Log in</button>
 
     </form>
-    
+
 {% endblock %}

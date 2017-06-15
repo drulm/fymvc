@@ -36,7 +36,9 @@ class Login extends \Core\Controller
             header("Location: http://" . $_SERVER['HTTP_HOST'] . '/', true, 303);
         } 
         else {
-            View::renderTemplate('Login/new.html');
+            View::renderTemplate('Login/new.html', [
+                'email' => $_POST['email'],
+            ]);
         }
 
     }

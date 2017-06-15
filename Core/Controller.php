@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use \App\Auth;
+
 /**
  * Base controller
  *
@@ -41,7 +43,6 @@ abstract class Controller
      */
     public function __call($name, $args)
     {
-        // Assume the name for the 'magic' method, suffix with Action in controllers.
         $method = $name . 'Action';
 
         if (method_exists($this, $method)) {
@@ -71,13 +72,33 @@ abstract class Controller
     protected function after()
     {
     }
-    
+
     /**
-     * 
-     * @param type $url
+     * Redirect to a different page
+     *
+     * @param string $url  The relative URL
+     *
+     * @return void
      */
-    public function redirect($url) {
-        header("Location: http://" . $_SERVER['HTTP_HOST'] . $url, true, 303);
-        exit();
+    public function redirect($url)
+    {
+        header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+        exit;
+    }
+
+    /**
+     * Require the user to be logged in before giving access to the requested page.
+     * Remember the requested page for later, then redirect to the login page.
+     *
+     * @return void
+     */
+    public function requireLogin()
+    {
+        if (! Auth::isLoggedIn()) {
+
+            Auth::rememberRequestedPage();
+
+            $this->redirect('/login');
+        }
     }
 }

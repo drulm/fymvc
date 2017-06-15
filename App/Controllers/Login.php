@@ -34,6 +34,8 @@ class Login extends \Core\Controller
 
         if ($user) {
 
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $user->id;
 
             $this->redirect('/');
@@ -74,6 +76,6 @@ class Login extends \Core\Controller
         // Finally destroy the session
         session_destroy();
 
-        $this->redirect('/');          
+        $this->redirect('/');
     }
 }

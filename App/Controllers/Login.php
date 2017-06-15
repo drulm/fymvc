@@ -31,15 +31,18 @@ class Login extends \Core\Controller
     public function createAction()
     {
         $user = User::authenticate($_POST['email'], $_POST['password']);
-        
+
         if ($user) {
-            $this->redirect('/')
-        } 
-        else {
+
+            $_SESSION['user_id'] = $user->id;
+
+            $this->redirect('/');
+
+        } else {
+
             View::renderTemplate('Login/new.html', [
                 'email' => $_POST['email'],
             ]);
         }
-
     }
 }

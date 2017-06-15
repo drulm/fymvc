@@ -6,10 +6,6 @@
  * PHP version 7.0
  */
 
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
-
 /**
  * Composer
  */
@@ -25,6 +21,12 @@ set_exception_handler('Core\Error::exceptionHandler');
 
 
 /**
+ * Sessions
+ */
+session_start();
+
+
+/**
  * Routing
  */
 $router = new Core\Router();
@@ -33,6 +35,5 @@ $router = new Core\Router();
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('{controller}/{action}');
-
     
 $router->dispatch($_SERVER['QUERY_STRING']);

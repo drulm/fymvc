@@ -22,11 +22,11 @@ class User extends \Core\Model
     /**
      * Class constructor
      *
-     * @param array $data  Initial property values
+     * @param array $data  Initial property values (optional)
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
             $this->$key = $value;
@@ -83,10 +83,6 @@ class User extends \Core\Model
         }
 
         // Password
-        if ($this->password != $this->password_confirmation) {
-            $this->errors[] = 'Password must match confirmation';
-        }
-
         if (strlen($this->password) < 6) {
             $this->errors[] = 'Please enter at least 6 characters for the password';
         }
@@ -109,14 +105,28 @@ class User extends \Core\Model
      */
     public static function emailExists($email)
     {
+        return static::findByEmail($email) !== false;
+    }
+
+    /**
+     * Find a user model by email address
+     *
+     * @param string $email email address to search for
+     *
+     * @return mixed User object if found, false otherwise
+     */
+    public static function findByEmail($email)
+    {
         $sql = 'SELECT * FROM users WHERE email = :email';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         $stmt->execute();
 
-        return $stmt->fetch() !== false;
+        return $stmt->fetch();
     }
 }

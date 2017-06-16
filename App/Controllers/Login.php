@@ -60,6 +60,13 @@ class Login extends \Core\Controller
     public function destroyAction()
     {
         Auth::logout();
+        
+        $this->redirect('/login/show-logout-message');
+    }
+    
+    public function showLogoutMessageAction() {
+        
+        Flash::addMessage('You are logged out.');
 
         $this->redirect('/');
     }

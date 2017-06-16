@@ -26,7 +26,7 @@ abstract class Controller
      *
      * @return void
      */
-    public function __construRequirct($route_params)
+    public function __construct($route_params)
     {
         $this->route_params = $route_params;
     }
@@ -96,9 +96,9 @@ abstract class Controller
     public function requireLogin()
     {
         if (! Auth::getUser()) {
-            
-            Flash::addMessage('You need to log in first to access this page.');
-            
+
+            Flash::addMessage('Please login to access that page', Flash::INFO);
+
             Auth::rememberRequestedPage();
 
             $this->redirect('/login');

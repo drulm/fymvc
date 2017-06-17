@@ -1,2 +1,5 @@
 nbproject
 logs
+App/Config.php
+App/Config_Backup.php
+

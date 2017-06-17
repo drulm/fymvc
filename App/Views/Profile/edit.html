@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block footer %}
     <script src="/js/hideShowPassword.min.js"></script>
@@ -9,19 +9,27 @@
     <script>
         $(document).ready(function() {
 
+            var userId = '{{ user.id }}';
+
             /**
              * Validate the form
              */
-            $('#formSignup').validate({
+            $('#formProfile').validate({
                 rules: {
                     name: 'required',
                     email: {
                         required: true,
                         email: true,
-                        remote: '/account/validate-email'
+                        remote: {
+                            url: '/account/validate-email',
+                            data: {
+                                ignore_id: function() {
+                                    return userId;
+                                }
+                            }
+                        }
                     },
                     password: {
-                        required: true,
                         minlength: 6,
                         validPassword: true
                     }
@@ -48,7 +56,7 @@
 
 {% block body %}
 
-    <h1>Sign up</h1>
+    <h1>Profile</h1>
 
     {% if user.errors is not empty %}
         <p>Errors:</p>
@@ -59,11 +67,11 @@
         </ul>
     {% endif %}
 
-    <form method="post" action="/signup/create" id="formSignup">
+    <form method="post" id="formProfile" action="/profile/update">
 
         <div>
             <label for="inputName">Name</label>
-            <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" required />
+            <input id="inputName" name="name" placeholder="Name" value="{{ user.name }}" required />
         </div>
         <div>
             <label for="inputEmail">Email address</label>
@@ -71,10 +79,12 @@
         </div>
         <div>
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" required />
+            <input type="password" id="inputPassword" name="password" placeholder="Password" aria-describedby="helpBlock" />
+            <span id="helpBlock">Leave blank to keep current password</span>
         </div>
 
-        <button type="submit">Sign up</button>
+        <button type="submit">Save</button>
+        <a href="/profile/show">Cancel</a>
 
     </form>
 

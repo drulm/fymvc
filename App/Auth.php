@@ -31,7 +31,7 @@ class Auth
             if ($user->rememberLogin()) {
 
                 setcookie('remember_me', $user->remember_token, $user->expiry_timestamp, '/');
-
+                
             }
         }
     }
@@ -64,7 +64,7 @@ class Auth
         // Finally destroy the session
         session_destroy();
 
-        static::forgetLogin();        
+        static::forgetLogin();
     }
 
     /**
@@ -117,6 +117,7 @@ class Auth
 
             $remembered_login = RememberedLogin::findByToken($cookie);
 
+            //if ($remembered_login) {
             if ($remembered_login && ! $remembered_login->hasExpired()) {
 
                 $user = $remembered_login->getUser();
@@ -144,7 +145,6 @@ class Auth
             if ($remembered_login) {
 
                 $remembered_login->delete();
-
             }
 
             setcookie('remember_me', '', time() - 3600);  // set to expire in the past

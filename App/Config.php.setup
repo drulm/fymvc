@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Change the name of this file to Config.php and change settings as needed.
+ */
+
 namespace App;
 
 /**
@@ -14,25 +18,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'localhost';
+    const DB_HOST = 'your-database-host';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'mvclogin';
+    const DB_NAME = 'your-database-name';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = '';
+    const DB_USER = 'your-database-user';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = '';
+    const DB_PASSWORD = 'your-database-password';
 
     /**
      * Show or hide error messages on screen
@@ -45,4 +49,18 @@ class Config
      * @var boolean
      */
     const SECRET_KEY = 'your-secret-key';
+
+    /**
+     * Mailgun API key
+     *
+     * @var string
+     */
+    const MAILGUN_API_KEY = 'your-mailgun-api-key';
+
+    /**
+     * Mailgun domain
+     *
+     * @var string
+     */
+    const MAILGUN_DOMAIN = 'your-mailgun-domain';
 }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Change the name of this file to Config.php and change settings as needed.
+ */
+
 namespace App;
 
 /**

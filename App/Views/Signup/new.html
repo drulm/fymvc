@@ -61,20 +61,20 @@
 
     <form method="post" action="/signup/create" id="formSignup">
 
-        <div>
+        <div class="form-group">
             <label for="inputName">Name</label>
-            <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" required />
+            <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" required class="form-control" />
         </div>
-        <div>
+        <div class="form-group">
             <label for="inputEmail">Email address</label>
-            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email" />
+            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email" class="form-control" />
         </div>
-        <div>
+        <div class="form-group">
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" required />
+            <input type="password" id="inputPassword" name="password" placeholder="Password" required class="form-control" />
         </div>
 
-        <button type="submit">Sign up</button>
+        <button type="submit" class="btn btn-default">Sign up</button>
 
     </form>
 

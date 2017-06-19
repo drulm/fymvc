@@ -80,7 +80,7 @@ class Blog extends \Core\Model
         $this->validate();
         
         if (empty($this->errors)) {
-            $sql = 'INSERT INTO blog (title, post, user_id, timestamp)
+            $sql = 'INSERT INTO blog (title, post, timestamp)
                     VALUES (:title, :post, :timestamp)';
 
             $db = static::getDB();

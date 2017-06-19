@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/post/index">Blog Posts</a></li>
+  <li role="presentation" class="active"><a href="#">Edit Post</a></li>
+</ul>
+
+<h1>Edit Blog Post</h1>
+
+<form id="formBlog" name="formBlog" method="post" action="/post/update">
+    <div class="form-group">
+        <input type="hidden" name="id" id="id" value="{{ blog.id }}">
+        <label for="inputTitle">Title</label>
+        <input type="text" name="title" id="title" value="{{ blog.title }}"/>
+    </div>
+    <div class="form-group">
+        <label for="inputPost">Post</label>
+        <textarea name="post" id="post" cols="45" rows="5">{{ blog.post }}</textarea> 
+    </div>
+    <button type="submit" class="btn btn-default">Save</button>
+    <a href="/post/index">Cancel</a>
+</form>
+
+{% endblock %}

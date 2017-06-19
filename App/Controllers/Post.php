@@ -129,13 +129,12 @@ class Post extends Authenticated
     {
         $blog = new Blog();
        
-        if ($results = $blog->read()) {
-            View::renderTemplate('Post/index.html', [
-                'blog' => $results
-            ]);
-        } else {
-            Flash::addMessage('Could not load blog items', Flash::WARNING);
+        if (!$results = $blog->read()) {
+            Flash::addMessage('No blog posts exist', Flash::INFO);
         }
+        View::renderTemplate('Post/index.html', [
+            'blog' => $results
+        ]);
     }
     
 }

@@ -80,8 +80,8 @@ class Blog extends \Core\Model
         $this->validate();
         
         if (empty($this->errors)) {
-            $sql = 'INSERT INTO blog (title, post, user_id)
-                    VALUES (:title, :post, :user_id)';
+            $sql = 'INSERT INTO blog (title, post, user_id, timestamp)
+                    VALUES (:title, :post, :user_id, :timestamp)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -89,6 +89,7 @@ class Blog extends \Core\Model
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
             $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
             $stmt->bindValue(':user_id', 1, PDO::PARAM_INT);
+            $stmt->bindValue(':timestamp', time(), PDO::PARAM_INT);
 
             return $stmt->execute();
         }

@@ -7,14 +7,16 @@
 <ul class="nav nav-tabs">
   <li role="presentation"><a href="/post/index">Blog Posts</a></li>
   <li role="presentation"><a href="/post/new">New Post</a></li>
-  <li role="presentation" class="active"><a href="#">Current Post</a></li>
+  <li role="presentation" class="active"><a href="#">Edit Post</a></li>
 </ul>
 
 <h1>{{ blog.title }}</h1>
 
-<h3>{{ entry.timestamp|date }}</h3>
+<h3>{{ blog.timestamp|date }}</h3>
 
 <h4>Post Id: {{ blog.id }}</h4>
+
+<h4><a href="/post/edit/{{ blog.id }}">Edit Post</a></li></h4>
 
 <p>{{ blog.post }}</p>
 

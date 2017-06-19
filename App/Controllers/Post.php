@@ -57,12 +57,23 @@ class Post extends Authenticated
      */
     public function editAction()
     {
-        echo "in editAction";
-        
         $blog = new Blog();
         
+        // Get the ID number
+        $post_id = $this->route_params['id'];
+        
+        echo $post_id;
+        
+        // Read one post at ID
+        $results = $blog->read($post_id);
+
+        // If not found, show warning.
+        if (!$results) {
+            Flash::addMessage('Could not load blog item to edit', Flash::WARNING);
+        }
+        
         View::renderTemplate('Post/edit.html', [
-            'blog' => $blog
+            'blog' => $results
         ]);
     }
     
@@ -105,17 +116,15 @@ class Post extends Authenticated
      * @return void
      */
     public function updateAction()
-    {
-        echo "in updateAction";
-        
-        $blog = new Blog();
+    {   
+        $blog = new Blog($_POST);
 
         if ($blog->update()) {
-            View::renderTemplate('Post/show.html', [
-                'blog' => $blog
-            ]);
+            Flash::addMessage('Post updated', Flash::SUCCESS);
+            $this->redirect('/post/show/' . $blog->id);
         } else {
-            $this->redirect('/post/index');
+            Flash::addMessage('Could not update post with blank entries', Flash::WARNING);
+            $this->redirect('/post/edit/' . $blog->id);
         }
     }
     

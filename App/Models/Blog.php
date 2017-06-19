@@ -98,16 +98,31 @@ class Blog extends \Core\Model
 
 
     /**
-     * Update the user's profile
-     *
-     * @param array $data Data from the edit profile form
-     *
-     * @return boolean  True if the data was updated, false otherwise
+     * 
+     * @param type $data
+     * @return boolean
      */
-    // @TODO Add blog update model
-    public function update($data)
-    {
-        echo "in modelUpdate";
+    public function update()
+    {   
+        $this->validate();
+        
+        if (empty($this->errors)) {
+            $sql = 'UPDATE blog SET
+                    post = :post ,
+                    title = :title 
+                    WHERE id = :id';
+            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+            $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
+           
+
+            return $stmt->execute();
+        }
+        
         return false;
     }
     

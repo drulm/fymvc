@@ -81,14 +81,13 @@ class Blog extends \Core\Model
         
         if (empty($this->errors)) {
             $sql = 'INSERT INTO blog (title, post, user_id, timestamp)
-                    VALUES (:title, :post, :user_id, :timestamp)';
+                    VALUES (:title, :post, :timestamp)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
 
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
             $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
-            $stmt->bindValue(':user_id', 1, PDO::PARAM_INT);
             $stmt->bindValue(':timestamp', time(), PDO::PARAM_INT);
 
             return $stmt->execute();
@@ -105,6 +104,7 @@ class Blog extends \Core\Model
      *
      * @return boolean  True if the data was updated, false otherwise
      */
+    // @TODO Add blog update model
     public function update($data)
     {
         echo "in modelUpdate";

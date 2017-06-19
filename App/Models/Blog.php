@@ -77,9 +77,9 @@ class Blog extends \Core\Model
      */
     public function save()
     {
-        $validate = $this->validate();
+        $this->validate();
         
-        if ($validate) {
+        if (empty($this->errors)) {
             $sql = 'INSERT INTO blog (title, post, user_id)
                     VALUES (:title, :post, :user_id)';
 
@@ -120,6 +120,9 @@ class Blog extends \Core\Model
     {
         // Check for title
         if (trim($this->title) == '') {
+            $this->errors[] = 'A title is required';
+        }
+        if (trim($this->post) == '') {
             $this->errors[] = 'A title is required';
         }
     }

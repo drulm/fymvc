@@ -88,9 +88,11 @@ class Post extends Authenticated
         $blog = new Blog($_POST);
 
         if ($blog->save()) {
+            Flash::addMessage('New post added', Flash::SUCCESS);
             $this->redirect('/post/index');
         } else {
-            View::renderTemplate('Post/create.html', [
+            Flash::addMessage('Could not add post with blank entries', Flash::WARNING);
+            View::renderTemplate('Post/new.html', [
                 'blog' => $blog
             ]);
         }

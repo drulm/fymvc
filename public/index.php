@@ -39,4 +39,7 @@ $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'ac
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 $router->add('{controller}/{action}');
 
+// New routes here
+$router->add('post/show/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'show']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Items{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">Blog Posts</a></li>
+  <li role="presentation"><a href="/post/new">New Post</a></li>
+</ul>
+
+<h1>Blog Posts</h1>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Blog posts</div>
+  <!--<div class="panel-body">
+  </div>-->
+
+  <!-- Table -->
+  <table class="table">
+    <thead> <tr> <th>id</th> <th>Title</th> <th>Text</th> </tr> </thead>
+    {% for key, entry in blog %}
+    <tr>
+        <td>{{ key }}</td>
+        <td>{{ entry.title }}</td>
+        <td>{{ entry.post[:200] ~ '...' }}</td> 
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

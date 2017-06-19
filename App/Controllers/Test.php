@@ -3,15 +3,17 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Auth;
+use \App\Flash;
 
 class Test extends \Core\Controller {
     
     public function oneAction() {
-        echo "inside controller action one";
+        View::renderTemplate('Test/one.html');
     }
     
     public function twoAction() {
-         echo "inside controller action two";
+        View::renderTemplate('Test/two.html');
     }
     
 }

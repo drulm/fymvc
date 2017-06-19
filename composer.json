@@ -3,7 +3,8 @@
         "twig/twig": "~2.0",
         "mailgun/mailgun-php": "^2.1",
         "php-http/guzzle6-adapter": "^1.1",
-        "php-http/message": "^1.4"
+        "php-http/message": "^1.4",
+        "phpunit/phpunit": "^6.2.2"
     },
     "autoload": {
         "psr-4": {

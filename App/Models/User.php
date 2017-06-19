@@ -71,7 +71,7 @@ class User extends \Core\Model
     }
 
     /**
-     * Validate current property values, adding valiation error messages to the errors array property
+     * Validate current property values, adding validation error messages to the errors array property
      *
      * @return void
      */

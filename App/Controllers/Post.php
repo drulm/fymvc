@@ -62,14 +62,13 @@ class Post extends Authenticated
         // Get the ID number
         $post_id = $this->route_params['id'];
         
-        echo $post_id;
-        
         // Read one post at ID
         $results = $blog->read($post_id);
 
         // If not found, show warning.
         if (!$results) {
             Flash::addMessage('Could not load blog item to edit', Flash::WARNING);
+            $this->redirect('/post/index');
         }
         
         View::renderTemplate('Post/edit.html', [

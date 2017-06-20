@@ -13,25 +13,23 @@ use \App\Models\Blog;
  *
  * PHP version 7.0
  */
-class Post extends Authenticated
-{
+class Post extends Authenticated {
 
     /**
      * Before filter - called before each action method
      *
      * @return void
      */
-    protected function before()
-    {
-        parent::before();
-        
-        $this->user = Auth::getUser();
+    protected function before() {
+        //parent::before();
+
+        //$this->user = Auth::getUser();
     }
-    
-    
+
+
     /**
      * Get, sanitize and return the current route id.
-     * 
+     *
      * @return type string
      */
     public function getID() {
@@ -39,38 +37,40 @@ class Post extends Authenticated
         return filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
     }
 
-    
+
     /**
      * Show a single blog entry.
      *
      * @return void
      */
-    public function showAction()
-    {   
+    public function showAction() {
         $blog = new Blog();
-        
+
         $results = $blog->read($this->getID());
 
         // If not found, show warning.
         if (!$results) {
             Flash::addMessage('Could not load blog item(s)', Flash::WARNING);
         }
-        
+
         View::renderTemplate('Post/show.html', [
             'blog' => $results
         ]);
     }
-    
-    
+
+
     /**
      * Edit / update a blog post.
-     * 
+     *
      * return @void
      */
-    public function editAction()
-    {
+    public function editAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
         $blog = new Blog();
-        
+
         // Read one post at ID
         $results = $blog->read($this->getID());
 
@@ -79,21 +79,25 @@ class Post extends Authenticated
             Flash::addMessage('Could not load blog item to edit', Flash::WARNING);
             $this->redirect('/post/index');
         }
-        
+
         View::renderTemplate('Post/edit.html', [
             'blog' => $results
         ]);
     }
-    
+
 
     /**
      * Delete a blog post by ID.
-     * 
+     *
      * return @void
      */
     public function removeAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
         $blog = new Blog();
-        
+
         // Read one post at ID
         $results = $blog->delete($this->getID());
 
@@ -101,22 +105,25 @@ class Post extends Authenticated
             Flash::addMessage('Blog post deleted', Flash::INFO);
             $this->redirect('/post/index');
         }
-        
+
         // If not found, show warning.
         Flash::addMessage('Could not delete that post', Flash::INFO);
         $this->redirect('/post/show/' . $post_id);
     }
-    
-    
+
+
     /**
      * Show a single blog entry.
      *
      * @return void
      */
-    public function deleteAction()
-    {   
+    public function deleteAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
         $blog = new Blog();
-        
+
         // Read one post at ID
         $results = $blog->read($this->getID());
 
@@ -124,34 +131,40 @@ class Post extends Authenticated
         if (!$results) {
             Flash::addMessage('Could not load blog item(s)', Flash::WARNING);
         }
-        
+
         Flash::addMessage('Are you sure you want to delete this blog post?', Flash::WARNING);
-        
+
         View::renderTemplate('Post/delete.html', [
                 'blog' => $results
             ]);
     }
-    
-    
+
+
     /**
      * New blog post entry, render the form template.
      * Post/new.html will call createAction.
-     * 
-     * return @void
-     */  
-    public function newAction()
-    {
-        View::renderTemplate('Post/new.html');
-    }
-    
-    
-    /**
-     * Create a new blog post entry in the DB.
-     * 
+     *
      * return @void
      */
-    public function createAction()
-    {
+    public function newAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
+        View::renderTemplate('Post/new.html');
+    }
+
+
+    /**
+     * Create a new blog post entry in the DB.
+     *
+     * return @void
+     */
+    public function createAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         if ($blog->save()) {
@@ -165,14 +178,17 @@ class Post extends Authenticated
         }
     }
 
-    
+
     /**
      * Update the blog to the database
      *
      * @return void
      */
-    public function updateAction()
-    {   
+    public function updateAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         if ($blog->update()) {
@@ -183,17 +199,16 @@ class Post extends Authenticated
             $this->redirect('/post/edit/' . $blog->id);
         }
     }
-    
-    
+
+
     /**
      * Index of the blog entries displayed
      *
      * @return void
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $blog = new Blog();
-       
+
         if (!$results = $blog->read()) {
             Flash::addMessage('No blog posts exist', Flash::INFO);
         }
@@ -201,6 +216,6 @@ class Post extends Authenticated
             'blog' => $results
         ]);
     }
-    
+
 // End of post class.
 }

@@ -9,13 +9,13 @@ use \App\Models\Blog;
 
 
 /**
- * Blog controller
+ * Post (blog) controller / uses Blog model.
  *
  * PHP version 7.0
  */
 class Post extends Authenticated
 {
-    
+
     /**
      * Before filter - called before each action method
      *
@@ -26,6 +26,17 @@ class Post extends Authenticated
         parent::before();
         
         $this->user = Auth::getUser();
+    }
+    
+    
+    /**
+     * Get, sanitize and return the current route id.
+     * 
+     * @return type string
+     */
+    public function getID() {
+        // Get the ID number
+        return filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
     }
 
     
@@ -38,11 +49,7 @@ class Post extends Authenticated
     {   
         $blog = new Blog();
         
-        // Get the ID number
-        $post_id = filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
-        
-        // Read one post at ID
-        $results = $blog->read($post_id);
+        $results = $blog->read($this->getID());
 
         // If not found, show warning.
         if (!$results) {
@@ -64,11 +71,8 @@ class Post extends Authenticated
     {
         $blog = new Blog();
         
-        // Get the ID number
-        $post_id = filter_var($this->route_params['id'], FILTER_SANITIZE_NUMBER_INT);
-        
         // Read one post at ID
-        $results = $blog->read($post_id);
+        $results = $blog->read($this->getID());
 
         // If not found, show warning.
         if (!$results) {
@@ -90,13 +94,8 @@ class Post extends Authenticated
     public function removeAction() {
         $blog = new Blog();
         
-        echo "here";
-        
-        // Get the ID number
-        $post_id = filter_var($this->route_params['id'], FILTER_SANITIZE_NUMBER_INT);
-        
         // Read one post at ID
-        $results = $blog->delete($post_id);
+        $results = $blog->delete($this->getID());
 
         if ($results) {
             Flash::addMessage('Blog post deleted', Flash::INFO);
@@ -118,11 +117,8 @@ class Post extends Authenticated
     {   
         $blog = new Blog();
         
-        // Get the ID number
-        $post_id = filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
-        
         // Read one post at ID
-        $results = $blog->read($post_id);
+        $results = $blog->read($this->getID());
 
         // If not found, show warning.
         if (!$results) {
@@ -132,8 +128,8 @@ class Post extends Authenticated
         Flash::addMessage('Are you sure you want to delete this blog post?', Flash::WARNING);
         
         View::renderTemplate('Post/delete.html', [
-            'blog' => $results
-        ]);
+                'blog' => $results
+            ]);
     }
     
     

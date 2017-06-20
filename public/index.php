@@ -42,5 +42,6 @@ $router->add('{controller}/{action}');
 // New routes here
 $router->add('post/show/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'show']);
 $router->add('post/edit/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'edit']);
+$router->add('post/delete/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'delete']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);

@@ -80,6 +80,29 @@ class Post extends Authenticated
     
     
     /**
+     * 
+     */
+    public function deleteAction() {
+        $blog = new Blog();
+        
+        // Get the ID number
+        $post_id = filter_var($this->route_params['id'], FILTER_SANITIZE_NUMBER_INT);
+        
+        // Read one post at ID
+        $results = $blog->delete($post_id);
+
+        if ($results) {
+            Flash::addMessage('Blog post deleted', Flash::INFO);
+            $this->redirect('/post/index');
+        }
+        
+        // If not found, show warning.
+        Flash::addMessage('Could not delete that post', Flash::INFO);
+        $this->redirect('/post/show/' . $post_id);
+    }
+    
+    
+    /**
      * New blog post entry, render the form template.
      * Post/new.html will call createAction.
      * 
@@ -119,7 +142,7 @@ class Post extends Authenticated
      */
     public function updateAction()
     {   
-        $blog = new Blog($_POST);
+        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         if ($blog->update()) {
             Flash::addMessage('Post updated', Flash::SUCCESS);

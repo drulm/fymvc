@@ -98,8 +98,8 @@ class Blog extends \Core\Model
 
 
     /**
+     * Update a blog entry, getting id from post.
      * 
-     * @param type $data
      * @return boolean
      */
     public function update()
@@ -119,7 +119,27 @@ class Blog extends \Core\Model
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
             $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
            
-
+            return $stmt->execute();
+        }
+        
+        return false;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function delete($id)
+    {   
+        if (filter_var($id, FILTER_VALIDATE_INT)) {
+            $sql = 'DELETE FROM
+                    blog WHERE id = :id';
+            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            
             return $stmt->execute();
         }
         
@@ -139,7 +159,10 @@ class Blog extends \Core\Model
             $this->errors[] = 'A title is required';
         }
         if (trim($this->post) == '') {
-            $this->errors[] = 'A title is required';
+            $this->errors[] = 'A blog post is required';
+        }
+        if (isset($this->id) && ! filter_var($this->id, FILTER_VALIDATE_INT)) {
+            $this->errors[] = 'The id is not valid';
         }
     }
     

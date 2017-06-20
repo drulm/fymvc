@@ -15,7 +15,10 @@
 
 <h4>Post Id: {{ blog.id }}</h4>
 
-<h4><a href="/post/edit/{{ blog.id }}" class="btn btn-info" role="button">Edit Post</a></li></h4>
+<h4>
+    <a href="/post/edit/{{ blog.id }}" class="btn btn-info" role="button">Edit Post</a></li>
+    <a href="/post/delete/{{ blog.id }}" class="btn btn-danger" role="button">Delete Post</a></li>
+</h4>
 
 <p>{{ blog.post }}</p>
 

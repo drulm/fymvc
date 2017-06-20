@@ -78,9 +78,11 @@ class Post extends Authenticated
         ]);
     }
     
-    
+
     /**
+     * Delete a blog post by ID.
      * 
+     * return @void
      */
     public function deleteAction() {
         $blog = new Blog();

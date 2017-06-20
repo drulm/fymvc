@@ -25,7 +25,8 @@
         <td><a href="/post/show/{{ entry.id }}">{{ entry.id }}</a></td>
         <td>{{ entry.timestamp|date }} </td>
         <td><a href="/post/show/{{ entry.id }}">{{ entry.title }}</a></td>
-        <td>{{ entry.post[:200] ~ '...' }}</td> 
+        <td>{{ entry.post[:200] ~ '...' }}</td>
+        <td><a href="/post/delete/{{ entry.id }}">Delete</td> 
     </tr>
     {% endfor %}
   </table>

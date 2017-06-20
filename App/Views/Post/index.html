@@ -19,14 +19,21 @@
 
   <!-- Table -->
   <table class="table">
-      <thead> <tr> <th>id</th> <th>Date</th><th>Title</th> <th>Text</th> </tr> </thead>
+      <thead> <tr> <th>id</th> <th>Date</th><th>Title</th> <th>Text</th> <th>Commands</th></tr> </thead>
     {% for key, entry in blog %}
     <tr>
         <td><a href="/post/show/{{ entry.id }}">{{ entry.id }}</a></td>
         <td>{{ entry.timestamp|date }} </td>
         <td><a href="/post/show/{{ entry.id }}">{{ entry.title }}</a></td>
         <td>{{ entry.post[:200] ~ '...' }}</td>
-        <td><a href="/post/delete/{{ entry.id }}">Delete</td> 
+        <td>
+            <button type="submit" class="btn btn-default">
+                <a href="/post/edit/{{ entry.id }}">Edit</a>
+            </button>
+            <button type="submit" class="btn btn-default">
+                <a href="/post/delete/{{ entry.id }}">Delete</a>
+            </button>
+        </td>
     </tr>
     {% endfor %}
   </table>

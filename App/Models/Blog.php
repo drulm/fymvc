@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use PDO;
-use \App\Token;
-use \Core\View;
+//use \App\Token;
+//use \Core\View;
 
 /**
  * User model
@@ -127,6 +127,7 @@ class Blog extends \Core\Model
     
     
     /**
+     * Delete the entry from the database.
      * 
      * @return boolean
      */
@@ -148,7 +149,7 @@ class Blog extends \Core\Model
     
     
     /**
-     * Validate current property values, adding valiation error messages to the errors array property
+     * Validate current property values, adding validation error messages to the errors array property
      *
      * @return void
      */
@@ -166,5 +167,5 @@ class Blog extends \Core\Model
         }
     }
     
-    
+// End of Blog class.
 }

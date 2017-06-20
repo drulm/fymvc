@@ -7,6 +7,7 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\Blog;
 
+
 /**
  * Blog controller
  *
@@ -14,6 +15,7 @@ use \App\Models\Blog;
  */
 class Post extends Authenticated
 {
+    
     /**
      * Before filter - called before each action method
      *
@@ -26,6 +28,7 @@ class Post extends Authenticated
         $this->user = Auth::getUser();
     }
 
+    
     /**
      * Show a single blog entry.
      *
@@ -104,6 +107,7 @@ class Post extends Authenticated
         Flash::addMessage('Could not delete that post', Flash::INFO);
         $this->redirect('/post/show/' . $post_id);
     }
+    
     
     /**
      * Show a single blog entry.
@@ -202,4 +206,5 @@ class Post extends Authenticated
         ]);
     }
     
+// End of post class.
 }

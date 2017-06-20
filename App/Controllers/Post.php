@@ -84,8 +84,10 @@ class Post extends Authenticated
      * 
      * return @void
      */
-    public function deleteAction() {
+    public function removeAction() {
         $blog = new Blog();
+        
+        echo "here";
         
         // Get the ID number
         $post_id = filter_var($this->route_params['id'], FILTER_SANITIZE_NUMBER_INT);
@@ -101,6 +103,33 @@ class Post extends Authenticated
         // If not found, show warning.
         Flash::addMessage('Could not delete that post', Flash::INFO);
         $this->redirect('/post/show/' . $post_id);
+    }
+    
+    /**
+     * Show a single blog entry.
+     *
+     * @return void
+     */
+    public function deleteAction()
+    {   
+        $blog = new Blog();
+        
+        // Get the ID number
+        $post_id = filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
+        
+        // Read one post at ID
+        $results = $blog->read($post_id);
+
+        // If not found, show warning.
+        if (!$results) {
+            Flash::addMessage('Could not load blog item(s)', Flash::WARNING);
+        }
+        
+        Flash::addMessage('Are you sure you want to delete this blog post?', Flash::WARNING);
+        
+        View::renderTemplate('Post/delete.html', [
+            'blog' => $results
+        ]);
     }
     
     

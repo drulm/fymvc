@@ -43,5 +43,6 @@ $router->add('{controller}/{action}');
 $router->add('post/show/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'show']);
 $router->add('post/edit/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'edit']);
 $router->add('post/delete/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'delete']);
+$router->add('post/remove/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'remove']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);

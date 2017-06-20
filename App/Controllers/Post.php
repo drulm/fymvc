@@ -22,12 +22,12 @@ class Post extends Authenticated
     protected function before()
     {
         parent::before();
-
+        
         $this->user = Auth::getUser();
     }
 
     /**
-     * Show a single blog entry
+     * Show a single blog entry.
      *
      * @return void
      */
@@ -36,7 +36,7 @@ class Post extends Authenticated
         $blog = new Blog();
         
         // Get the ID number
-        $post_id = $this->route_params['id'];
+        $post_id = filter_var($this->route_params['id'], FILTER_VALIDATE_INT);
         
         // Read one post at ID
         $results = $blog->read($post_id);
@@ -53,14 +53,16 @@ class Post extends Authenticated
     
     
     /**
+     * Edit / update a blog post.
      * 
+     * return @void
      */
     public function editAction()
     {
         $blog = new Blog();
         
         // Get the ID number
-        $post_id = $this->route_params['id'];
+        $post_id = filter_var($this->route_params['id'], FILTER_SANITIZE_NUMBER_INT);
         
         // Read one post at ID
         $results = $blog->read($post_id);
@@ -78,7 +80,8 @@ class Post extends Authenticated
     
     
     /**
-     * New blog post entry, render the form teplate.
+     * New blog post entry, render the form template.
+     * Post/new.html will call createAction.
      * 
      * return @void
      */  
@@ -95,7 +98,7 @@ class Post extends Authenticated
      */
     public function createAction()
     {
-        $blog = new Blog($_POST);
+        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         if ($blog->save()) {
             Flash::addMessage('New post added', Flash::SUCCESS);

@@ -2,8 +2,10 @@
 
 {% block title %}Blog Items{% endblock %}
 
-{% block body %}
+{% block footer %}
+{% endblock %}
 
+{% block body %}
 <ul class="nav nav-tabs">
   <li role="presentation" class="active"><a href="#">Blog Posts</a></li>
   <li role="presentation"><a href="/post/new">New Post</a></li>
@@ -21,12 +23,16 @@
   <table class="table">
       <thead> <tr> <th>id</th> <th>Date</th><th>Title</th> <th>Text</th> <th>Commands</th></tr> </thead>
     {% for key, entry in blog %}
+    <tbody>
     <tr>
         <td><a href="/post/show/{{ entry.id }}">{{ entry.id }}</a></td>
         <td>{{ entry.timestamp|date }} </td>
         <td><a href="/post/show/{{ entry.id }}">{{ entry.title }}</a></td>
         <td>{{ entry.post[:200] ~ '...' }}</td>
         <td>
+            <button type="submit" class="btn btn-default">
+                <a href="/post/show/{{ entry.id }}">View</a>
+            </button>
             <button type="submit" class="btn btn-default">
                 <a href="/post/edit/{{ entry.id }}">Edit</a>
             </button>
@@ -35,6 +41,7 @@
             </button>
         </td>
     </tr>
+    </tbody>
     {% endfor %}
   </table>
 </div>

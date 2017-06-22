@@ -21,9 +21,7 @@ class Post extends Authenticated {
      * @return void
      */
     protected function before() {
-        //parent::before();
-
-        //$this->user = Auth::getUser();
+        // Add any before actions here.
     }
 
 

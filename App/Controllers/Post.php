@@ -75,20 +75,34 @@ class Post extends Authenticated {
 
 
     /**
+     * Authenticate the blog
+     *
+     * @return mixed
+     */
+    public function authBlog($blog_id) {
+
+        $blog = new Blog();
+
+        // Read one post at ID
+        $results = $blog->read($blog_id);
+
+        // Only allow this for logged in users who own this content.
+        parent::before($results['user_id']);
+        $this->user = Auth::getUser();
+
+        return $results;
+    }
+
+
+    /**
      * Edit / update a blog post.
      *
      * return @void
      */
     public function editAction() {
 
-        $blog = new Blog();
-
-        // Read one post at ID
-        $results = $blog->read($this->getID());
-
         // Only allow this for logged in users who own this content.
-        parent::before($results['user_id']);
-        $this->user = Auth::getUser();
+        $results = $this->authBlog($this->getID());
 
         // If not found, show warning.
         if (!$results) {
@@ -108,11 +122,11 @@ class Post extends Authenticated {
      * @return void
      */
     public function updateAction() {
+
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         // Only allow this for logged in users who own this content.
-        parent::before($blog->user_id);
-        $this->user = Auth::getUser();
+        $results = $this->authBlog($blog->user_id);
 
         if ($blog->update()) {
             Flash::addMessage('Post updated', Flash::SUCCESS);

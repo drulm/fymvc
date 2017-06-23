@@ -15,7 +15,8 @@
 
 <form id="formBlog" name="formBlog" method="post" action="/post/update">
     <div class="form-group">
-        <input type="hidden" name="id" id="id" value="{{ blog.blog_id }}">
+        <input type="hidden" name="blog_id" id="id" value="{{ blog.blog_id }}">
+        <input type="hidden" name="user_id" id="id" value="{{ blog.user_id }}">
         <label for="inputTitle">Title</label>
         <input type="text" name="title" id="title" size="80" maxlength="255" value="{{ blog.title }}"/>
     </div>

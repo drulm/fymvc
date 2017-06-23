@@ -80,18 +80,15 @@ class Post extends Authenticated {
      * return @void
      */
     public function editAction() {
-        // Only allow this for logged in users.
-        parent::before();
-        $this->user = Auth::getUser();
 
         $blog = new Blog();
 
         // Read one post at ID
         $results = $blog->read($this->getID());
 
-       // Only allow this for logged in users who own this content.
-       // parent::before($results['user_id']);
-       // $this->user = Auth::getUser();
+        // Only allow this for logged in users who own this content.
+        parent::before($results['user_id']);
+        $this->user = Auth::getUser();
 
         // If not found, show warning.
         if (!$results) {
@@ -111,25 +108,18 @@ class Post extends Authenticated {
      * @return void
      */
     public function updateAction() {
-        // Only allow this for logged in users.
-        parent::before();
-        $this->user = Auth::getUser();
-
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
-        // Read one post at ID to check user id.
-        //$results = $blog->read($this->getID());
-
         // Only allow this for logged in users who own this content.
-        //parent::before($results['user_id']);
-        //$this->user = Auth::getUser();
+        parent::before($blog->user_id);
+        $this->user = Auth::getUser();
 
         if ($blog->update()) {
             Flash::addMessage('Post updated', Flash::SUCCESS);
-            $this->redirect('/post/show/' . $blog->id);
+            $this->redirect('/post/show/' . $blog->blog_id);
         } else {
             Flash::addMessage('Could not update post with blank entries', Flash::WARNING);
-            $this->redirect('/post/edit/' . $blog->id);
+            $this->redirect('/post/edit/' . $blog->blog_id);
         }
     }
 

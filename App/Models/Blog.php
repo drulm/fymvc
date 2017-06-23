@@ -127,7 +127,7 @@ class Blog extends \Core\Model
             $db = static::getDB();
             $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':blog_id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':blog_id', $this->blog_id, PDO::PARAM_INT);
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
             $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
             $stmt->bindValue(':user_id', Auth::getUser()->id, PDO::PARAM_INT);

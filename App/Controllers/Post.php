@@ -58,6 +58,23 @@ class Post extends Authenticated {
 
 
     /**
+     * Index of the blog entries displayed
+     *
+     * @return void
+     */
+    public function indexAction() {
+        $blog = new Blog();
+
+        if (!$results = $blog->read()) {
+            Flash::addMessage('No blog posts exist', Flash::INFO);
+        }
+        View::renderTemplate('Post/index.html', [
+            'blog' => $results
+        ]);
+    }
+
+
+    /**
      * Edit / update a blog post.
      *
      * return @void
@@ -85,6 +102,35 @@ class Post extends Authenticated {
         View::renderTemplate('Post/edit.html', [
             'blog' => $results
         ]);
+    }
+
+
+    /**
+     * Update the blog to the database
+     *
+     * @return void
+     */
+    public function updateAction() {
+        // Only allow this for logged in users.
+        parent::before();
+        $this->user = Auth::getUser();
+
+        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+
+        // Read one post at ID to check user id.
+        //$results = $blog->read($this->getID());
+
+        // Only allow this for logged in users who own this content.
+        //parent::before($results['user_id']);
+        //$this->user = Auth::getUser();
+
+        if ($blog->update()) {
+            Flash::addMessage('Post updated', Flash::SUCCESS);
+            $this->redirect('/post/show/' . $blog->id);
+        } else {
+            Flash::addMessage('Could not update post with blank entries', Flash::WARNING);
+            $this->redirect('/post/edit/' . $blog->id);
+        }
     }
 
 
@@ -179,52 +225,6 @@ class Post extends Authenticated {
                 'blog' => $blog
             ]);
         }
-    }
-
-
-    /**
-     * Update the blog to the database
-     *
-     * @return void
-     */
-    public function updateAction() {
-        // Only allow this for logged in users.
-        parent::before();
-        $this->user = Auth::getUser();
-
-        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
-
-        // Read one post at ID to check user id.
-        //$results = $blog->read($this->getID());
-
-        // Only allow this for logged in users who own this content.
-        //parent::before($results['user_id']);
-        //$this->user = Auth::getUser();
-
-        if ($blog->update()) {
-            Flash::addMessage('Post updated', Flash::SUCCESS);
-            $this->redirect('/post/show/' . $blog->id);
-        } else {
-            Flash::addMessage('Could not update post with blank entries', Flash::WARNING);
-            $this->redirect('/post/edit/' . $blog->id);
-        }
-    }
-
-
-    /**
-     * Index of the blog entries displayed
-     *
-     * @return void
-     */
-    public function indexAction() {
-        $blog = new Blog();
-
-        if (!$results = $blog->read()) {
-            Flash::addMessage('No blog posts exist', Flash::INFO);
-        }
-        View::renderTemplate('Post/index.html', [
-            'blog' => $results
-        ]);
     }
 
 // End of post class.

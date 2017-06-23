@@ -37,6 +37,26 @@ class Post extends Authenticated {
 
 
     /**
+     * Authenticate the blog
+     *
+     * @return mixed
+     */
+    public function authBlog($blog_id) {
+
+        $blog = new Blog();
+
+        // Read one post at ID
+        $results = $blog->read($blog_id);
+
+        // Only allow this for logged in users who own this content.
+        parent::before($results['user_id']);
+        $this->user = Auth::getUser();
+
+        return $results;
+    }
+
+
+    /**
      * Show a single blog entry.
      *
      * @return void
@@ -71,26 +91,6 @@ class Post extends Authenticated {
         View::renderTemplate('Post/index.html', [
             'blog' => $results
         ]);
-    }
-
-
-    /**
-     * Authenticate the blog
-     *
-     * @return mixed
-     */
-    public function authBlog($blog_id) {
-
-        $blog = new Blog();
-
-        // Read one post at ID
-        $results = $blog->read($blog_id);
-
-        // Only allow this for logged in users who own this content.
-        parent::before($results['user_id']);
-        $this->user = Auth::getUser();
-
-        return $results;
     }
 
 
@@ -145,18 +145,12 @@ class Post extends Authenticated {
      */
     public function deleteAction() {
 
-        $blog = new Blog();
-
-        // Read one post at ID to check user id.
-        $results = $blog->read($this->getID());
-
         // Only allow this for logged in users who own this content.
-        parent::before($results['user_id']);
-        $this->user = Auth::getUser();
+        $results = $this->authBlog($this->getID());
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not load blog item(s)', Flash::WARNING);
+            Flash::addMessage('Could not delete blog item(s)', Flash::WARNING);
         }
 
         Flash::addMessage('Are you sure you want to delete this blog post?', Flash::WARNING);
@@ -174,14 +168,10 @@ class Post extends Authenticated {
      */
     public function removeAction() {
 
-        $blog = new Blog();
-        // Read the post at ID to verify delete.
-        $results = $blog->read($this->getID());
-
         // Only allow this for logged in users who own this content.
-        parent::before($results['user_id']);
-        $this->user = Auth::getUser();
+        $results_auth_blog = $this->authBlog($this->getID());
 
+        $blog = new Blog();
         // Delete post at ID
         $delete_results = $blog->delete($this->getID());
 
@@ -192,7 +182,7 @@ class Post extends Authenticated {
 
         // If not found, show warning.
         Flash::addMessage('Could not delete that post', Flash::INFO);
-        $this->redirect('/post/show/' . $post_id);
+        $this->redirect('/post/show/' . $this->getID());
     }
 
 

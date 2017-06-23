@@ -125,33 +125,7 @@ class Post extends Authenticated {
 
 
     /**
-     * Delete a blog post by ID.
-     *
-     * return @void
-     */
-    public function removeAction() {
-        // Only allow this for logged in users.
-        parent::before();
-        $this->user = Auth::getUser();
-
-        $blog = new Blog();
-
-        // Read one post at ID
-        $results = $blog->delete($this->getID());
-
-        if ($results) {
-            Flash::addMessage('Blog post deleted', Flash::INFO);
-            $this->redirect('/post/index');
-        }
-
-        // If not found, show warning.
-        Flash::addMessage('Could not delete that post', Flash::INFO);
-        $this->redirect('/post/show/' . $post_id);
-    }
-
-
-    /**
-     * Show a single blog entry.
+     * Action to show verification screen for Delete.
      *
      * @return void
      */
@@ -176,6 +150,35 @@ class Post extends Authenticated {
         View::renderTemplate('Post/delete.html', [
                 'blog' => $results
             ]);
+    }
+
+
+    /**
+     * Delete a blog post by ID and remove it from the database.
+     *
+     * return @void
+     */
+    public function removeAction() {
+
+        $blog = new Blog();
+        // Read the post at ID to verify delete.
+        $results = $blog->read($this->getID());
+
+        // Only allow this for logged in users who own this content.
+        parent::before($results['user_id']);
+        $this->user = Auth::getUser();
+
+        // Delete post at ID
+        $delete_results = $blog->delete($this->getID());
+
+        if ($delete_results) {
+            Flash::addMessage('Blog post deleted', Flash::INFO);
+            $this->redirect('/post/index');
+        }
+
+        // If not found, show warning.
+        Flash::addMessage('Could not delete that post', Flash::INFO);
+        $this->redirect('/post/show/' . $post_id);
     }
 
 

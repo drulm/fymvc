@@ -14,8 +14,8 @@ abstract class Authenticated extends \Core\Controller
      *
      * @return void
      */
-    protected function before()
+    protected function before($userContentId = NULL)
     {
-        $this->requireLogin();
+        $this->requireLogin($userContentId);
     }
 }

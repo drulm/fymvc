@@ -19,7 +19,7 @@ class Profile extends Authenticated
      *
      * @return void
      */
-    protected function before()
+    protected function before($userContentId = NULL)
     {
         parent::before();
 

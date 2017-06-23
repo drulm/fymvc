@@ -61,7 +61,7 @@ abstract class Controller
      *
      * @return void
      */
-    protected function before()
+    protected function before($userContentId = NULL)
     {
     }
 
@@ -88,21 +88,30 @@ abstract class Controller
     }
 
     /**
-     * Require the user to be logged in before giving access to the requested page.
-     * Remember the requested page for later, then redirect to the login page.
+     * This checks for a logged in user only allows authenticated.
      *
-     * @return void
+     * If $userContentId is set to a userID content should match current userID.
+     *
+     * @param int $userContentId
      */
-    public function requireLogin()
+    public function requireLogin($userContentId = NULL)
     {
-        if (! Auth::getUser()) {
+        $user = Auth::getUser();
 
-            //Flash::addMessage('Please login to access that page');
+        if (! $user) {
+
             Flash::addMessage('Please login to access that page', Flash::INFO);
 
             Auth::rememberRequestedPage();
 
             $this->redirect('/login');
         }
+        elseif ($userContentId && $user->id != $userContentId) {
+
+            Flash::addMessage('Cannot alter content user does not own', Flash::WARNING);
+
+            $this->redirect('/login');
+        }
     }
+
 }

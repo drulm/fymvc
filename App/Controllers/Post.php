@@ -20,7 +20,7 @@ class Post extends Authenticated {
      *
      * @return void
      */
-    protected function before() {
+    protected function before($userContentId = NULL) {
         // Add any before actions here.
     }
 
@@ -72,6 +72,10 @@ class Post extends Authenticated {
         // Read one post at ID
         $results = $blog->read($this->getID());
 
+       // Only allow this for logged in users who own this content.
+       // parent::before($results['user_id']);
+       // $this->user = Auth::getUser();
+
         // If not found, show warning.
         if (!$results) {
             Flash::addMessage('Could not load blog item to edit', Flash::WARNING);
@@ -116,14 +120,15 @@ class Post extends Authenticated {
      * @return void
      */
     public function deleteAction() {
-        // Only allow this for logged in users.
-        parent::before();
-        $this->user = Auth::getUser();
 
         $blog = new Blog();
 
-        // Read one post at ID
+        // Read one post at ID to check user id.
         $results = $blog->read($this->getID());
+
+        // Only allow this for logged in users who own this content.
+        parent::before($results['user_id']);
+        $this->user = Auth::getUser();
 
         // If not found, show warning.
         if (!$results) {
@@ -188,6 +193,13 @@ class Post extends Authenticated {
         $this->user = Auth::getUser();
 
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+
+        // Read one post at ID to check user id.
+        //$results = $blog->read($this->getID());
+
+        // Only allow this for logged in users who own this content.
+        //parent::before($results['user_id']);
+        //$this->user = Auth::getUser();
 
         if ($blog->update()) {
             Flash::addMessage('Post updated', Flash::SUCCESS);

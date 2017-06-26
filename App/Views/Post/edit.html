@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog{% endblock %}
+{% block title %}Edit Blog Entry{% endblock %}
 
 {% block body %}
 
@@ -11,15 +11,18 @@
 
 <h1>Edit Blog Post</h1>
 
+<p>User: {{ blog.name }}</p>
+
 <form id="formBlog" name="formBlog" method="post" action="/post/update">
     <div class="form-group">
-        <input type="hidden" name="id" id="id" value="{{ blog.id }}">
+        <input type="hidden" name="blog_id" id="id" value="{{ blog.blog_id }}">
+        <input type="hidden" name="user_id" id="id" value="{{ blog.user_id }}">
         <label for="inputTitle">Title</label>
-        <input type="text" name="title" id="title" value="{{ blog.title }}"/>
+        <input type="text" name="title" id="title" size="80" maxlength="255" value="{{ blog.title }}"/>
     </div>
     <div class="form-group">
         <label for="inputPost">Post</label>
-        <textarea name="post" id="post" cols="45" rows="5">{{ blog.post }}</textarea> 
+        <textarea name="post" id="post" cols="80" rows="8">{{ blog.post }}</textarea>
     </div>
     <button type="submit" class="btn btn-default">Save</button>
     <a href="/post/index">Cancel</a>

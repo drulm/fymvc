@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * This is for testing PHP-Unit configuration.
+ */
+
 class Calculator
 {
     /**

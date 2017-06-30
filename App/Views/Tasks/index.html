@@ -26,7 +26,7 @@
               <th>Task ID</th>
               <th>Task Name</th>
               <th>Task project ID</th>
-              <th>Task project ID</th>
+              <th>Commands</th>
           </tr>
       </thead>
     {% for key, entry in task %}
@@ -41,6 +41,7 @@
                     View
                 </button>
             </a>
+            <!--
             <a href="/tasks/edit/{{ entry.task_id }}">
                 <button type="submit" class="btn btn-default">
                    Edit
@@ -51,6 +52,7 @@
                     Delete
                 </button>
             </a>
+            -->
         </td>
     </tr>
     </tbody>

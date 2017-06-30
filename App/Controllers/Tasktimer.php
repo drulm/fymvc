@@ -13,7 +13,7 @@ use \App\Models\Tasktimer;
  *
  * PHP version 7.0
  */
-class Tasks extends Authenticated {
+class Taskstimer extends Authenticated {
 
     /**
      * Before filter - called before each action method

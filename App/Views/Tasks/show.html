@@ -15,14 +15,22 @@
 
 <h4>Task Project Id: {{ task.task_project_id }}</h4>
 
+<h4> <a href="/tasks/edit/{{ task.task_id }}" class="btn btn-info" role="button">Start New Timer</a>
+</h4>
+
 <!-- <h4>
     <a href="/tasks/edit/{{ task.task_id }}" class="btn btn-info" role="button">Edit Task</a>
     <a href="/tasks/delete/{{ task.task_id }}" class="btn btn-danger" role="button">Delete Task</a>
 </h4>
 -->
 
+
 {% for key, entry in task_timer %}
-    {{ entry.tt_description }} // {{ entry.tt_duration }} <br />
+{{ entry.tt_description }} // <b>{{ entry.tt_start_datetime }}</b> // {{ entry.tt_duration }} hours
+    {% if entry.tt_duration == 0 %}
+        <a href="/tasks/edit/{{ task.task_id }}" class="btn btn-warning" role="button">Stop Task</a>
+    {% endif %}
+    <br />
 {% endfor %}
 
 <p>{{ project.post }}</p>

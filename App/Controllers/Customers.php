@@ -5,15 +5,14 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
-use \App\Models\Blog;
-
+use \App\Models\Customer;
 
 /**
- * Post (blog) controller / uses Blog model.
+ * Customer controller / uses Customer model.
  *
  * PHP version 7.0
  */
-class Post extends Authenticated {
+class Customers extends Authenticated {
 
     /**
      * Before filter - called before each action method
@@ -37,16 +36,16 @@ class Post extends Authenticated {
 
 
     /**
-     * Authenticate the project
+     * Authenticate the customer
      *
      * @return mixed
      */
-    public function authBlog($blog_id) {
+    /* public function authCustomer($customer_id) {
 
-        $blog = new Blog();
+        $customer = new Customer();
 
         // Read one post at ID
-        $results = $blog->read($blog_id);
+        $results = $customer->read($customer_id);
 
         // Only allow this for logged in users who own this content.
         parent::before($results['user_id']);
@@ -54,25 +53,26 @@ class Post extends Authenticated {
 
         return $results;
     }
+     */
 
 
     /**
-     * Show a single project entry.
+     * Show a single customer entry.
      *
      * @return void
      */
     public function showAction() {
-        $blog = new Blog();
+        $customer = new Customer();
 
-        $results = $blog->read($this->getID());
+        $results = $customer->read($this->getID());
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not load project item(s)', Flash::WARNING);
+            Flash::addMessage('Could not load Customer item(s)', Flash::WARNING);
         }
 
-        View::renderTemplate('Post/show.html', [
-            'project' => $results
+        View::renderTemplate('Customers/show.html', [
+            'customer' => $results
         ]);
     }
 
@@ -83,14 +83,15 @@ class Post extends Authenticated {
      * @return void
      */
     public function indexAction() {
-        $blog = new Blog();
+       $customer = new Customer();
 
-        if (!$results = $blog->read()) {
-            Flash::addMessage('No blog posts exist', Flash::INFO);
+        if (!$results = $customer->read()) {
+            Flash::addMessage('No customer posts exist', Flash::INFO);
         }
-        View::renderTemplate('Post/index.html', [
-            'project' => $results
+        View::renderTemplate('Customers/index.html', [
+            'customer' => $results
         ]);
+
     }
 
 
@@ -102,11 +103,11 @@ class Post extends Authenticated {
     public function editAction() {
 
         // Only allow this for logged in users who own this content.
-        $results = $this->authBlog($this->getID());
+        // $results = $this->authCustomer($this->getID());
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not load blog item to edit', Flash::WARNING);
+            Flash::addMessage('Could not load customer item to edit', Flash::WARNING);
             $this->redirect('/post/index');
         }
 
@@ -123,10 +124,10 @@ class Post extends Authenticated {
      */
     public function updateAction() {
 
-        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        $customer = new Customer(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         // Only allow this for logged in users who own this content.
-        $results = $this->authBlog($blog->user_id);
+        // $results = $this->authCustomer($customer->user_id);
 
         if ($blog->update()) {
             Flash::addMessage('Post updated', Flash::SUCCESS);
@@ -146,7 +147,7 @@ class Post extends Authenticated {
     public function deleteAction() {
 
         // Only allow this for logged in users who own this content.
-        $results = $this->authBlog($this->getID());
+        // $results = $this->authCustomer($this->getID());
 
         // If not found, show warning.
         if (!$results) {
@@ -169,7 +170,7 @@ class Post extends Authenticated {
     public function removeAction() {
 
         // Only allow this for logged in users who own this content.
-        $results_auth_blog = $this->authBlog($this->getID());
+        // $results_auth_blog = $this->authCustomer($this->getID());
 
         $blog = new Blog();
         // Delete post at ID
@@ -197,7 +198,7 @@ class Post extends Authenticated {
         parent::before();
         $this->user = Auth::getUser();
 
-        View::renderTemplate('Post/new.html');
+        View::renderTemplate('Customers/new.html');
     }
 
 
@@ -211,15 +212,15 @@ class Post extends Authenticated {
         parent::before();
         $this->user = Auth::getUser();
 
-        $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        $customer = new Customer(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
-        if ($blog->save()) {
+        if ($customer->save()) {
             Flash::addMessage('New post added', Flash::SUCCESS);
-            $this->redirect('/post/index');
+            $this->redirect('/customers/index');
         } else {
             Flash::addMessage('Could not add post with blank entries', Flash::WARNING);
-            View::renderTemplate('Post/new.html', [
-                'project' => $blog
+            View::renderTemplate('customers/new.html', [
+                'customer' => $customer
             ]);
         }
     }

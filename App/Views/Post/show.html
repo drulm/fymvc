@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog Entry {{ blog.title }}{% endblock %}
+{% block title %}Project-{{ project.title }}{% endblock %}
 
 {% block body %}
 
 <ul class="nav nav-tabs">
-  <li role="presentation"><a href="/post/index">Blog Posts</a></li>
-  <li role="presentation" class="active"><a href="#">Show Post</a></li>
+  <li role="presentation"><a href="/post/index">Projects</a></li>
+  <li role="presentation" class="active"><a href="#">Show Project</a></li>
 </ul>
 
-<h1>{{ blog.title }}</h1>
+<h1>Project Title: {{ project.title }}</h1>
 
-<h4>User: {{ blog.name }}</h3>
+<h4>User: {{ project.name }}</h3>
 
-<h4>{{ blog.timestamp|date }}</h3>
+<h4>{{ project.timestamp|date }}</h3>
 
-<h4>Post Id: {{ blog.blog_id }}</h4>
+<h4>Project Id: {{ project.project_id }}</h4>
 
 <h4>
-    <a href="/post/edit/{{ blog.blog_id }}" class="btn btn-info" role="button">Edit Post</a>
-    <a href="/post/delete/{{ blog.blog_id }}" class="btn btn-danger" role="button">Delete Post</a>
+    <a href="/post/edit/{{ project.project_id }}" class="btn btn-info" role="button">Edit Project</a>
+    <a href="/post/delete/{{ project.project_id }}" class="btn btn-danger" role="button">Delete Project</a>
 </h4>
 
-<p>{{ blog.post }}</p>
+<p>{{ project.post }}</p>
 
 {% endblock %}

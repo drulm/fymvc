@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}New Customer Entry{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/customers/index">Customer Entries</a></li>
+  <li role="presentation" class="active"><a href="#">New Customer</a></li>
+</ul>
+
+<h1>Create New Customer</h1>
+
+<form id="formBlog" name="formCustomer" method="post" action="/customers/create">
+    <div class="form-group">
+        <label for="inputName">Customer Name</label><br />
+        <input type="text" name="title" id="name" />
+    </div>
+    <button type="submit" class="btn btn-default">Save</button>
+    <a href="/customers/index">Cancel</a>
+</form>
+
+{% endblock %}

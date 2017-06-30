@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %}New Blog Post{% endblock %}
+{% block title %}New Project Entry{% endblock %}
 
 {% block body %}
 
 <ul class="nav nav-tabs">
-  <li role="presentation"><a href="/post/index">Blog Posts</a></li>
-  <li role="presentation" class="active"><a href="#">New Post</a></li>
+  <li role="presentation"><a href="/post/index">Project Entries</a></li>
+  <li role="presentation" class="active"><a href="#">New Project</a></li>
 </ul>
 
-<h1>Create New Blog Post</h1>
+<h1>Create New Project</h1>
 
 <form id="formBlog" name="formBlog" method="post" action="/post/create">
     <div class="form-group">
-        <label for="inputTitle">Title</label>
+        <label for="inputTitle">Project Title</label><br />
         <input type="text" name="title" id="title" />
     </div>
     <div class="form-group">
-        <label for="inputPost">Post</label>
+        <label for="inputPost">Project Description</label><br />
         <textarea name="post" id="post" cols="45" rows="5"></textarea>
     </div>
     <button type="submit" class="btn btn-default">Save</button>

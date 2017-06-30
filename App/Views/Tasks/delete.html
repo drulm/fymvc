@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete this Blog Item{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/post/index">List of Projects</a></li>
+  <li role="presentation" class="active"><a href="#">Delete Project</a></li>
+</ul>
+
+<h1>{{ project.title }}</h1>
+
+<h3>{{ project.timestamp|date }}</h3>
+
+<h4>Project Id: {{ project.project_id }}</h4>
+
+<h4>
+    <a href="/post/show/{{ project.project_id }}" class="btn btn-info" role="button">No, go back</a></li>
+    <a href="/post/remove/{{ project.project_id }}" class="btn btn-danger" role="button">Yes, delete it</a></li>
+</h4>
+
+<p>{{ project.post }}</p>
+
+{% endblock %}

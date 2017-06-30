@@ -153,7 +153,7 @@ class Post extends Authenticated {
             Flash::addMessage('Could not delete blog item(s)', Flash::WARNING);
         }
 
-        Flash::addMessage('Are you sure you want to delete this blog post?', Flash::WARNING);
+        Flash::addMessage('Are you sure you want to delete this project?', Flash::WARNING);
 
         View::renderTemplate('Post/delete.html', [
                 'project' => $results
@@ -212,6 +212,9 @@ class Post extends Authenticated {
         $this->user = Auth::getUser();
 
         $blog = new Blog(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        
+                
+        var_dump($blog->inputCustomer);
 
         if ($blog->save()) {
             Flash::addMessage('New post added', Flash::SUCCESS);

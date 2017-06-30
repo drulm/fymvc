@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Task-{{ task.task_name }}{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/tasks/index">Tasks</a></li>
+  <li role="presentation" class="active"><a href="#">Show Task</a></li>
+</ul>
+
+<h1>{{ task.task_name }}</h1>
+
+<h4>Task Id: {{ task.task_id }}</h4>
+
+<h4>Task Project Id: {{ task.task_project_id }}</h4>
+
+<!-- <h4>
+    <a href="/tasks/edit/{{ task.task_id }}" class="btn btn-info" role="button">Edit Task</a>
+    <a href="/tasks/delete/{{ task.task_id }}" class="btn btn-danger" role="button">Delete Task</a>
+</h4>
+-->
+
+{% for key, entry in task_timer %}
+    {{ entry.tt_description }} // {{ entry.tt_duration }} <br />
+{% endfor %}
+
+<p>{{ project.post }}</p>
+
+{% endblock %}

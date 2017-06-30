@@ -5,13 +5,13 @@
 {% block body %}
 
 <ul class="nav nav-tabs">
-  <li role="presentation"><a href="/post/index">List of Projects</a></li>
-  <li role="presentation" class="active"><a href="#">Edit Project</a></li>
+  <li role="presentation"><a href="/post/index">Blog Posts</a></li>
+  <li role="presentation" class="active"><a href="#">Edit Post</a></li>
 </ul>
 
 <h1>Edit Project</h1>
 
-<p>Created by: {{ project.name }}</p>
+<p>User: {{ project.name }}</p>
 
 <form id="formBlog" name="formBlog" method="post" action="/post/update">
     <div class="form-group">
@@ -19,14 +19,6 @@
         <input type="hidden" name="user_id" id="id" value="{{ project.user_id }}">
         <label for="inputTitle">Project Title</label><br />
         <input type="text" name="title" id="title" size="80" maxlength="255" value="{{ project.title }}"/>
-        <div class="form-group">
-            <label for="inputCustomer">Project Customer</label><br />
-            <select name="inputCustomer" form="formBlog">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-            </select>
-        </div>
     </div>
     <div class="form-group">
         <label for="inputPost">Project Description</label><br />

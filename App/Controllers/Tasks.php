@@ -5,14 +5,15 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
-use \App\Models\Customer;
+use \App\Models\Task;
+use \App\Models\Tasktimer;
 
 /**
- * Customer controller / uses Customer model.
+ * Tasks controller / uses Task model.
  *
  * PHP version 7.0
  */
-class Customers extends Authenticated {
+class Tasks extends Authenticated {
 
     /**
      * Before filter - called before each action method
@@ -62,41 +63,50 @@ class Customers extends Authenticated {
      * @return void
      */
     public function showAction() {
-        $customer = new Customer();
+        $task = new Task();
 
-        $results = $customer->read($this->getID());
+        $results = $task->read($this->getID());
+        
+        //var_dump($results['task_id']);
+        
+        $task_timer = new Tasktimer();
+        
+        $task_results = $task_timer->readtask($results['task_id']);
+        
+        //var_dump($task_results);
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not load Customer item(s)', Flash::WARNING);
+            Flash::addMessage('Could not load Task item(s)', Flash::WARNING);
         }
 
-        View::renderTemplate('Customers/show.html', [
-            'customer' => $results
+        View::renderTemplate('Tasks/show.html', [
+            'task' => $results,
+            'task_timer' => $task_results
         ]);
     }
 
 
     /**
-     * Index of the project entries displayed
+     * Index of the task entries displayed
      *
      * @return void
      */
     public function indexAction() {
-       $customer = new Customer();
+       $task = new Task();
 
-        if (!$results = $customer->read()) {
-            Flash::addMessage('No customer posts exist', Flash::INFO);
+        if (!$results = $task->read()) {
+            Flash::addMessage('No task posts exist', Flash::INFO);
         }
-        View::renderTemplate('Customers/index.html', [
-            'customer' => $results
+        View::renderTemplate('Tasks/index.html', [
+            'task' => $results
         ]);
 
     }
 
 
     /**
-     * Edit / update a project post.
+     * Edit / update a task post.
      *
      * return @void
      */
@@ -107,34 +117,34 @@ class Customers extends Authenticated {
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not load customer item to edit', Flash::WARNING);
-            $this->redirect('/post/index');
+            Flash::addMessage('Could not load task item to edit', Flash::WARNING);
+            $this->redirect('/tasks/index');
         }
 
-        View::renderTemplate('Post/edit.html', [
-            'project' => $results
+        View::renderTemplate('tasks/edit.html', [
+            'task' => $results
         ]);
     }
 
 
     /**
-     * Update the project to the database
+     * Update the task to the database
      *
      * @return void
      */
     public function updateAction() {
 
-        $customer = new Customer(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        $task = new Task(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
         // Only allow this for logged in users who own this content.
         // $results = $this->authCustomer($customer->user_id);
 
-        if ($blog->update()) {
-            Flash::addMessage('Post updated', Flash::SUCCESS);
-            $this->redirect('/post/show/' . $blog->project_id);
+        if ($task->update()) {
+            Flash::addMessage('Task updated', Flash::SUCCESS);
+            $this->redirect('/tasks/show/' . $task->task_id);
         } else {
-            Flash::addMessage('Could not update post with blank entries', Flash::WARNING);
-            $this->redirect('/post/edit/' . $blog->project_id);
+            Flash::addMessage('Could not update task with blank entries', Flash::WARNING);
+            $this->redirect('/tasks/edit/' . $task->task_id);
         }
     }
 
@@ -151,13 +161,13 @@ class Customers extends Authenticated {
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not delete blog item(s)', Flash::WARNING);
+            Flash::addMessage('Could not delete task item(s)', Flash::WARNING);
         }
 
-        Flash::addMessage('Are you sure you want to delete this Customer?', Flash::WARNING);
+        Flash::addMessage('Are you sure you want to delete this Task?', Flash::WARNING);
 
-        View::renderTemplate('Post/delete.html', [
-                'project' => $results
+        View::renderTemplate('tasks/delete.html', [
+                'task' => $results
             ]);
     }
 
@@ -172,18 +182,18 @@ class Customers extends Authenticated {
         // Only allow this for logged in users who own this content.
         // $results_auth_blog = $this->authCustomer($this->getID());
 
-        $blog = new Blog();
-        // Delete post at ID
+        $task = new Blog();
+        // Delete task at ID
         $delete_results = $blog->delete($this->getID());
 
         if ($delete_results) {
-            Flash::addMessage('Blog post deleted', Flash::INFO);
-            $this->redirect('/post/index');
+            Flash::addMessage('Task deleted', Flash::INFO);
+            $this->redirect('/tasks/index');
         }
 
         // If not found, show warning.
-        Flash::addMessage('Could not delete that post', Flash::INFO);
-        $this->redirect('/post/show/' . $this->getID());
+        Flash::addMessage('Could not delete the Task', Flash::INFO);
+        $this->redirect('/tasks/show/' . $this->getID());
     }
 
 
@@ -198,7 +208,7 @@ class Customers extends Authenticated {
         parent::before();
         $this->user = Auth::getUser();
 
-        View::renderTemplate('Customers/new.html');
+        View::renderTemplate('Tasks/new.html');
     }
 
 
@@ -212,18 +222,20 @@ class Customers extends Authenticated {
         parent::before();
         $this->user = Auth::getUser();
 
-        $customer = new Customer(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        $task = new task(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
+        
+        //var_dump($task);
 
-        if ($customer->save()) {
-            Flash::addMessage('New post added', Flash::SUCCESS);
-            $this->redirect('/customers/index');
+        if ($task->save()) {
+            Flash::addMessage('New task added', Flash::SUCCESS);
+            $this->redirect('/tasks/index');
         } else {
-            Flash::addMessage('Could not add post with blank entries', Flash::WARNING);
-            View::renderTemplate('customers/new.html', [
-                'customer' => $customer
+            Flash::addMessage('Could not add task with blank entries', Flash::WARNING);
+            View::renderTemplate('tasks/new.html', [
+                'task' => $task
             ]);
         }
     }
 
-// End of post class.
+// End of tasks class.
 }

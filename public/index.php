@@ -51,4 +51,10 @@ $router->add('customers/edit/{id:\+?\d+}', ['controller' => 'Customers', 'action
 $router->add('customers/delete/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'delete']);
 $router->add('customers/remove/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'remove']);
 
+// Task Routes
+$router->add('tasks/show/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'show']);
+$router->add('tasks/edit/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'edit']);
+$router->add('tasks/delete/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'delete']);
+$router->add('tasks/remove/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'remove']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);

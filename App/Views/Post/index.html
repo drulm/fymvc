@@ -40,7 +40,7 @@
         <td><a href="/post/show/{{ entry.project_id }}">{{ entry.title }}</a></td>
         <td>{{ entry.post[:200] ~ '...' }}</td>
         <td>{{ entry.name }}</td>
-        <td>{{ entry.cust_id }}</td>
+        <td><a href="/customers/show/{{ entry.cust_id }}">{{ entry.cust_id }}</a></td>
         <td>
             <a href="/post/show/{{ entry.project_id }}">
                 <button type="submit" class="btn btn-default">

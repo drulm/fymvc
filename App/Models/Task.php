@@ -7,11 +7,12 @@ use App\Auth;
 
 
 /**
- * Project model
+ * Tasks model
  *
  * PHP version 7.0
  */
-class Blog extends \Core\Model
+
+class Task extends \Core\Model
 {
 
     /**
@@ -37,7 +38,7 @@ class Blog extends \Core\Model
 
 
     /**
-     * Read either one or all Project entries.
+     * Read either one or all Task entries.
      *
      * If $id = NULL then read and return all entries.
      *
@@ -45,14 +46,12 @@ class Blog extends \Core\Model
      */
     public function read($id = NULL)
     {
-        $sql = 'SELECT b.*, u.name as name
-                FROM project as b
-                left join users as u
-                on b.user_id = u.id
+        $sql = 'SELECT *
+                FROM tasks
                 ';
         // Select only one entry
         if ($id) {
-            $sql .= ' WHERE b.project_id = :project_id';
+            $sql .= ' WHERE task_id = :task_id';
         }
 
         // Prepare sql and bind project id if used.
@@ -60,7 +59,7 @@ class Blog extends \Core\Model
         $stmt = $db->prepare($sql);
 
         if ($id) {
-            $stmt->bindValue(':project_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':task_id', $id, PDO::PARAM_INT);
         }
 
         $stmt->execute();
@@ -79,7 +78,7 @@ class Blog extends \Core\Model
 
 
     /**
-     * Save the project model with the current property values
+     * Save the task model with the current property values
      *
      * @return boolean  True if the user was saved, false otherwise
      */
@@ -89,17 +88,16 @@ class Blog extends \Core\Model
 
         if (empty($this->errors)) {
 
-            $sql = 'INSERT INTO project (title, post, timestamp, user_id, cust_id)
-                    VALUES (:title, :post, :timestamp, :user_id, :cust_id)';
+            $sql = 'INSERT INTO tasks (task_name, task_project_id)
+                    VALUES (:task_name, :task_project_id)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
+            
+            //var_dump($this);
 
-            $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
-            $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
-            $stmt->bindValue(':timestamp', time(), PDO::PARAM_INT);
-            $stmt->bindValue(':user_id', Auth::getUser()->id, PDO::PARAM_INT);
-            $stmt->bindValue(':cust_id', $this->inputCustomer, PDO::PARAM_INT);
+            $stmt->bindValue(':task_name', $this->name, PDO::PARAM_STR);
+            $stmt->bindValue(':task_project_id', $this->task_project_id, PDO::PARAM_INT);
 
             return $stmt->execute();
         }
@@ -109,7 +107,7 @@ class Blog extends \Core\Model
 
 
     /**
-     * Update a project entry, getting id from POST.
+     * Update a customer entry, getting id from POST.
      *
      * @return boolean
      */
@@ -119,19 +117,16 @@ class Blog extends \Core\Model
 
         if (empty($this->errors)) {
 
-            $sql = 'UPDATE project SET
-                    post = :post ,
-                    title = :title,
-                    user_id = :user_id
-                    WHERE project_id = :project_id';
+            $sql = 'UPDATE tasks SET
+                    task_name = :task_name,
+                    task_project_id = :task_project_id
+                    WHERE task_id = :task_id';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':project_id', $this->project_id, PDO::PARAM_INT);
-            $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
-            $stmt->bindValue(':post', $this->post, PDO::PARAM_STR);
-            $stmt->bindValue(':user_id', Auth::getUser()->id, PDO::PARAM_INT);
+            $stmt->bindValue(':task_name', $this->task_name, PDO::PARAM_STR);
+            $stmt->bindValue(':task_project_id', $this->task_project_id, PDO::PARAM_INT);
 
             return $stmt->execute();
         }
@@ -149,11 +144,11 @@ class Blog extends \Core\Model
     {
         if (filter_var($id, FILTER_VALIDATE_INT)) {
             $sql = 'DELETE FROM
-                    project WHERE project_id = :project_id';
+                    tasks WHERE task_id = :task_id';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
-            $stmt->bindValue(':project_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':task_id', $id, PDO::PARAM_INT);
 
             return $stmt->execute();
         }
@@ -170,16 +165,13 @@ class Blog extends \Core\Model
     public function validate()
     {
         // Check for title
-        if (trim($this->title) == '') {
-            $this->errors[] = 'A project title is required';
+        if (trim($this->name) == '') {
+            $this->errors[] = 'A task name is required';
         }
-        if (trim($this->post) == '') {
-            $this->errors[] = 'A project description is required';
-        }
-        if (isset($this->id) && ! filter_var($this->id, FILTER_VALIDATE_INT)) {
-            $this->errors[] = 'The id is not valid';
+        if (isset($this->project_id) && ! filter_var($this->id, FILTER_VALIDATE_INT)) {
+            $this->errors[] = 'The project id is not valid';
         }
     }
 
-// End of Project model class.
+// End of Task model class.
 }

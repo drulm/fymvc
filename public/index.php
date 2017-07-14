@@ -39,10 +39,22 @@ $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'ac
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 $router->add('{controller}/{action}');
 
-// New routes here
+// Routes for Projects
 $router->add('post/show/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'show']);
 $router->add('post/edit/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'edit']);
 $router->add('post/delete/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'delete']);
 $router->add('post/remove/{id:\+?\d+}', ['controller' => 'Post', 'action' => 'remove']);
+
+// Customer Routes
+$router->add('customers/show/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'show']);
+$router->add('customers/edit/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'edit']);
+$router->add('customers/delete/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'delete']);
+$router->add('customers/remove/{id:\+?\d+}', ['controller' => 'Customers', 'action' => 'remove']);
+
+// Task Routes
+$router->add('tasks/show/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'show']);
+$router->add('tasks/edit/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'edit']);
+$router->add('tasks/delete/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'delete']);
+$router->add('tasks/remove/{id:\+?\d+}', ['controller' => 'Tasks', 'action' => 'remove']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);

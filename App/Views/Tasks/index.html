@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block body %}
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">List of Tasks</a></li>
+  <li role="presentation"><a href="/tasks/new">Create Task</a></li>
+</ul>
+
+<h1>Tasks</h1>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">List of tasks</div>
+  <!--<div class="panel-body">
+  </div>-->
+
+  <!-- Table -->
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Task ID</th>
+              <th>Task Name</th>
+              <th>Task project ID</th>
+              <th>Commands</th>
+          </tr>
+      </thead>
+    {% for key, entry in task %}
+    <tbody>
+    <tr>
+        <td><a href="/tasks/show/{{ entry.task_id }}">{{ entry.task_id }}</a></td>
+        <td><a href="/tasks/show/{{ entry.task_id }}">{{ entry.task_name }}</a></td>
+        <td><a href="/post/show/{{ entry.task_project_id }}">{{ entry.task_project_id }}</a></td>
+        <td>
+            <a href="/tasks/show/{{ entry.task_id }}">
+                <button type="submit" class="btn btn-default">
+                    View
+                </button>
+            </a>
+            <!--
+            <a href="/tasks/edit/{{ entry.task_id }}">
+                <button type="submit" class="btn btn-default">
+                   Edit
+                </button>
+            </a>
+            <a href="/tasks/delete/{{ entry.task_id }}">
+                <button type="submit" class="btn btn-default">
+                    Delete
+                </button>
+            </a>
+            -->
+        </td>
+    </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

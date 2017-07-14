@@ -177,12 +177,12 @@ class Customers extends Authenticated {
         $delete_results = $blog->delete($this->getID());
 
         if ($delete_results) {
-            Flash::addMessage('Blog post deleted', Flash::INFO);
+            Flash::addMessage('Customer post deleted', Flash::INFO);
             $this->redirect('/post/index');
         }
 
         // If not found, show warning.
-        Flash::addMessage('Could not delete that post', Flash::INFO);
+        Flash::addMessage('Could not delete that customer', Flash::INFO);
         $this->redirect('/post/show/' . $this->getID());
     }
 

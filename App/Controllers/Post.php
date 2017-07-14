@@ -150,7 +150,7 @@ class Post extends Authenticated {
 
         // If not found, show warning.
         if (!$results) {
-            Flash::addMessage('Could not delete blog item(s)', Flash::WARNING);
+            Flash::addMessage('Could not delete project item(s)', Flash::WARNING);
         }
 
         Flash::addMessage('Are you sure you want to delete this project?', Flash::WARNING);
